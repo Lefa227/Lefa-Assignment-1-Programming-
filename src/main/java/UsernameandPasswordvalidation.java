@@ -13,10 +13,17 @@ import java.util.Scanner;
 public class UsernameandPasswordvalidation {
     
  //Declaration of variables 
+    private String firstname;
+    private String lastname;
     private String username;
     private String password;
     
-    //Getters and setters 
+    //Public access modifier to declare boolean
+    public boolean correct = true;
+    public boolean verify = false;
+    public boolean check = false;
+    
+    //Getters and setters to return the declared variables 
     public String getsUsername() {
         return username;
     }
@@ -31,6 +38,32 @@ public class UsernameandPasswordvalidation {
 
     public void setsPassword(String Password) {
         this.password = Password;
+    }
+    
+    //Method used to capture the user details when after being entered 
+    public void Capture(){
+        // Make use of a scanner to allow user input
+        Scanner cons = new Scanner(System.in);
+        
+        System.out.println("Please enter your name");
+        //Make use of a constructor and make refernce of the variables declared by making use of the private access
+        this.firstname=cons.nextLine();
+        
+        System.out.println("Please enter your lastname");
+        //Make use of a constructor and make refernce of the variables declared by making use of the private access
+        this.lastname=cons.nextLine();
+        
+        //Make use of a do while loop to ensure that the user enters the correct information required should the information fail to meet the requirements 
+        do{
+            System.out.println("Enter your lastname(Username must have at least 5 characters and must contain an underscore)");
+        this.username=cons.nextLine();
+        }while(!CHECKusername(this.username));
+        //Make use of a do while loop to ensure that the user enters the correct information required should the information fail to meet the requirements 
+        do{
+            System.out.println("Enter password(Must contain at least 8 characters, a special character must be present, a number and a capital letter)");
+        this.password=cons.nextLine();
+        }while(!CHECKPassword(this.password));
+        
     }
    
     public boolean checkusername(String username){
@@ -59,15 +92,20 @@ public class UsernameandPasswordvalidation {
             }else if(Character.isLetterOrDigit(c)){
                 specialcheck = true;
             }
-        }        
-    }       
-        
-
-    
+        } 
+        if(containSpecial && containLetters&& containNumber){
+            check = true;
+        }else{
+            System.out.println("Password is not successfully captured please ensure that the password entered meets all the requirements");
+            check = false;
+        }
+        return check;
+    }      
+   
     //Return true only if all checks are passed return length && capitalcheck && numbercheck && specialcheck
     
-    String registeruser(){
-        
+   public String registeruser(){
+    
         //Check username validity
         boolean isusernamevalid = checkusername(username);
         
@@ -80,19 +118,48 @@ public class UsernameandPasswordvalidation {
         }else{
             System.out.println("Username or Password does not meet the criteria. User registration failed!");
         }
+        
+        return "";
     }
     
-    public boolean loginUser(String username, String userpassword){
-        //Check if the provided username and password match the stored ones
+    public boolean loginUser(){
         
-        return username.equals(username) && userpassword.equals(username);
+        Scanner firstnameSc = new Scanner(System.in);
+        System.out.println("Welcome user please enter your access details");
+        
+        //Make use of a do while loop
+        System.out.println("Enter your username");
+        String Username = firstnameSc.nextLine();
+        
+        System.out.println("Please enter your password");
+        String password = firstnameSc.nextLine();
+        
+        //Make use of an if statement 
+        if(Username.equals(this.username) && password.equals(this.password)){
+            correct = true;
+        }else{
+            System.out.println("USERNAME OR PASSWORD INCORRECT, PLEASE TRY AGAIN!");
+            correct = false;
+                    
+        }while(!correct);
+        
+        return correct;
     }
     
-    public void returnLoginStatus(boolean loginstatus){
-        //Display login status
+    public String returnLoginStatus(){
         
-        if(loginstatus){
-            System.out.println("\n Login Successful!");
+        if(correct){
+            System.out.println("Welcome To PLANETKRYPTON!" +" " + getLastname());
+        }else{
+            
+            System.out.println("USERNAME OR PASSWORD INCORRECT, PLEASE TRY AGAIN");
         }
+     return "";   
     }
-}
+    
+    }
+   
+
+    
+
+
